@@ -6,7 +6,7 @@ import SearchResults from './pages/home/search-results';
 
 import {useEffect, useState} from "react";
 
-import {useGetDataMutation, useSetDataMutation} from "./utilities/redux/services/api.service";
+import {useGetDataMutation, useSetDataMutation, useGetExternalDataMutation} from "./utilities/redux/services/api.service";
 
 function App() {
 
@@ -16,6 +16,7 @@ function App() {
   
   const [getData] = useGetDataMutation();
   const [setData] = useSetDataMutation();
+  const [getExternalData] = useGetExternalDataMutation();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -40,6 +41,10 @@ function App() {
     }
   }
 
+  const getExternalApiData = () => {
+    getExternalData().then(response => console.log(response.data))
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -50,6 +55,7 @@ function App() {
         <div>
           <InputField onChange={(e) => setNewItem(e.target.value)} value={newItem} />
           <Button onClick={e => addNewItem()}>ADD NEW ITEM</Button>
+          <Button onClick={e => getExternalApiData()}>GET DATA FROM JSON PLACEHOLDER API TO CONSOLE</Button>
         </div>
       </header>
     </div>

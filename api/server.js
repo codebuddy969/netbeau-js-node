@@ -2,7 +2,7 @@
 
 const Hapi = require("@hapi/hapi");
 const Boom = require("@hapi/boom");
-const Joi = require('joi');
+const Joi = require("joi");
 const fs = require("fs");
 
 const init = async () => {
@@ -36,14 +36,23 @@ const init = async () => {
 
                     dataArray.push(item);
 
-                    fs.writeFile(FILE_PATH, JSON.stringify(dataArray), "utf8", (error) => {
-                        if (error) {
-                            throw Boom.badRequest("Failed to write the file!");
+                    fs.writeFile(
+                        FILE_PATH,
+                        JSON.stringify(dataArray),
+                        "utf8",
+                        (error) => {
+                            if (error) {
+                                throw Boom.badRequest(
+                                    "Failed to write the file!"
+                                );
+                            }
                         }
-                    });
+                    );
                 });
 
-                return h.response({message: "Item added successfully!"}).code(201);
+                return h
+                    .response({message: "Item added successfully!"})
+                    .code(201);
             } catch (error) {
                 console.error(error);
                 return h.response("Internal server error").code(500);
@@ -52,10 +61,10 @@ const init = async () => {
         options: {
             validate: {
                 payload: Joi.object({
-                    item: Joi.string().min(2).max(10)
-                })
-            }
-        }
+                    item: Joi.string().min(2).max(10),
+                }),
+            },
+        },
     });
 
     server.route({
@@ -80,6 +89,31 @@ const init = async () => {
                 return h.response(items).type("application/json").code(200);
             } catch (err) {
                 throw Boom.badRequest(err.message);
+            }
+        },
+    });
+
+    server.route({
+        method: "GET",
+        path: "/jsonplaceholder-data",
+        handler: async (request, h) => {
+            const fetch = (await import('node-fetch')).default;
+
+            const url = "https://jsonplaceholder.typicode.com/posts";
+            const controller = new AbortController();
+            const signal = controller.signal;
+            const timeout = setTimeout(() => {
+                controller.abort();
+            }, 5000);
+
+            try {
+                const response = await fetch(url, {signal});
+                const data = await response.json();
+                return h.response(data).type("application/json").code(200);
+            } catch (error) {
+                console.log(error.name === "AbortError" ? "Request timed out" : `Request failed: ${error}`);
+            } finally {
+                clearTimeout(timeout);
             }
         },
     });
