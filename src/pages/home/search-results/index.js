@@ -1,6 +1,6 @@
 import {Styled_search_results_list, Styled_search_results_list_item} from './index.styles';
 
-function SearchResults({ items = ["defauls", "defauls","defauls", "defauls","defauls", "defauls","defauls", "defauls"] }) {
+function SearchResults({ items = [] }) {
   return (
     <Styled_search_results_list>
         {items.map((item, index) => (

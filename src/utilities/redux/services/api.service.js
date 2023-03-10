@@ -4,13 +4,12 @@ export const serverApi = createApi({
     reducerPath: "serverApi",
     baseQuery: fetchBaseQuery({baseUrl: "http://localhost:3001"}),
     endpoints: builder => ({
-        getFilteredProducts: builder.mutation({
-          query: post => ({
-            url: `/`,
-            method: 'GET'
+        getData: builder.mutation({
+          query: data => ({
+            url: data?.item ? `?search=${data.item}` : ''
           })
         })
       })
 });
 
-export const { useGetFilteredProductsMutation } = serverApi;
+export const { useGetDataMutation } = serverApi;
