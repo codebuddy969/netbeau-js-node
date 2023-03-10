@@ -1,22 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
+import InputField from './components/controls/input';
+import Paragraph from './components/texts/paragraph';
+import SearchResults from './pages/home/search-results';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React 
-        </a>
+        <Paragraph>Hi my name is Skynet, I'm a friendly search algorithm</Paragraph>
+        <Paragraph>Simply allow me to take control, it will be fine!</Paragraph>
+        <InputField />
+        <SearchResults />
+        <div></div>
       </header>
     </div>
   );
