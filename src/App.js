@@ -1,19 +1,21 @@
 import './App.css';
 import InputField from './components/controls/input';
+import Button from './components/controls/button';
 import Paragraph from './components/texts/paragraph';
 import SearchResults from './pages/home/search-results';
 
 import {useEffect, useState} from "react";
 
-import {useGetDataMutation} from "./utilities/redux/services/api.service";
+import {useGetDataMutation, useSetDataMutation} from "./utilities/redux/services/api.service";
 
 function App() {
 
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [items, setItems] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
-
+  const [newItem, setNewItem] = useState("");
+  
   const [getData] = useGetDataMutation();
+  const [setData] = useSetDataMutation();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -27,10 +29,16 @@ function App() {
     // eslint-disable-next-line no-restricted-globals
     history.pushState({}, '', query === "" ? "?" : `?search=${query}`);
 
-    // Cancel the debounce on useEffect cleanup
     return () => clearTimeout(delayDebounceFn)
   }, [query]);
 
+  const addNewItem = () => {
+    if (newItem != "") {
+      setData({body: {item: newItem}}).then(response => {
+        alert(response.data.message);
+      })
+    }
+  }
 
   return (
     <div className="App">
@@ -39,7 +47,10 @@ function App() {
         <Paragraph>Simply allow me to take control, it will be fine!</Paragraph>
         <InputField onChange={(e) => setQuery(e.target.value)} value={query} />
         <SearchResults items={items} />
-        <div></div>
+        <div>
+          <InputField onChange={(e) => setNewItem(e.target.value)} value={newItem} />
+          <Button onClick={e => addNewItem()}>ADD NEW ITEM</Button>
+        </div>
       </header>
     </div>
   );

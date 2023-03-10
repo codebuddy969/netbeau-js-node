@@ -6,10 +6,17 @@ export const serverApi = createApi({
     endpoints: builder => ({
         getData: builder.mutation({
           query: data => ({
-            url: data?.item ? `?search=${data.item}` : ''
+            url: data?.item ? `?search=${data.item}` : '/'
+          })
+        }),
+        setData: builder.mutation({
+          query: data => ({
+            url: '/',
+            method: 'POST',
+            body: data.body
           })
         })
       })
 });
 
-export const { useGetDataMutation } = serverApi;
+export const { useGetDataMutation, useSetDataMutation } = serverApi;
