@@ -50,10 +50,10 @@ function App() {
       <header className="App-header">
         <Paragraph>Hi my name is Skynet, I'm a friendly search algorithm</Paragraph>
         <Paragraph>Simply allow me to take control, it will be fine!</Paragraph>
-        <InputField onChange={(e) => setQuery(e.target.value)} value={query} />
+        <InputField onChange={(e) => setQuery(e.target.value)} value={query} placeholder="Search..." />
         <SearchResults items={items} />
         <div>
-          <InputField onChange={(e) => setNewItem(e.target.value)} value={newItem} />
+          <InputField onChange={(e) => setNewItem(e.target.value)} value={newItem} placeholder="New item name" />
           <Button onClick={e => addNewItem()}>ADD NEW ITEM</Button>
           <Button onClick={e => getExternalApiData()}>GET DATA FROM JSON PLACEHOLDER API TO CONSOLE</Button>
         </div>
